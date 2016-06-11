@@ -10,7 +10,7 @@ RUN apt-get -y install \
 	php7.0-dev \
 	apache2 \
 	libapache2-mod-php7.0 \
-    php-pear
+	php-pear
 
 RUN yes | pecl install xdebug \
 	&& echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/apache2/php.ini \
