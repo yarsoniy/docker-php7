@@ -23,6 +23,7 @@ RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/
 RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/cli/php.ini \
 	&& echo "xdebug.remote_enable=on" >> /etc/php/7.0/cli/php.ini \
 	&& echo "xdebug.remote_connect_back=on" >> /etc/php/7.0/cli/php.ini
+	&& echo "xdebug.xdebug.remote_port=9000" >> /etc/php/7.0/cli/php.ini
 
 ENV XDEBUG_CONFIG "idekey=PHPSTORM"
 
