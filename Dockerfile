@@ -22,6 +22,7 @@ RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/
 #Xdebug config for php-cli
 RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/cli/php.ini \
 	&& echo "xdebug.remote_enable=on" >> /etc/php/7.0/cli/php.ini \
+	&& echo "xdebug.remote_host=192.168.99.1" >> /etc/php/7.0/cli/php.ini \
 	&& echo "xdebug.remote_log = /var/log/xdebug_remote.log" >> /etc/php/7.0/cli/php.ini
 
 ##Your PhpStorm path mappings server configuration name
@@ -29,5 +30,4 @@ ENV PHP_IDE_CONFIG "serverName=dev"
 ENV XDEBUG_CONFIG "idekey=PHPSTORM"
 
 EXPOSE 80
-EXPOSE 9000
 ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
