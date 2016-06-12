@@ -14,21 +14,19 @@ RUN apt-get -y install \
 
 RUN yes | pecl install xdebug
 
-# Xdebug config for apache
+#Xdebug config for apache
 RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/apache2/php.ini \
 	&& echo "xdebug.remote_enable=on" >> /etc/php/7.0/apache2/php.ini \
 	&& echo "xdebug.remote_connect_back=on" >> /etc/php/7.0/apache2/php.ini
 
-# Xdebug config for php-cli
+#Xdebug config for php-cli
 RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/cli/php.ini \
 	&& echo "xdebug.remote_enable=on" >> /etc/php/7.0/cli/php.ini \
-	&& echo "xdebug.remote_connect_back=on" >> /etc/php/7.0/cli/php.ini \
-	&& echo "xdebug.xdebug.remote_port=9000" >> /etc/php/7.0/cli/php.ini
+	&& echo "xdebug.remote_log = /var/log/xdebug_remote.log" >> /etc/php/7.0/cli/php.ini \
 
-ENV XDEBUG_CONFIG "idekey=PHPSTORM"
-
-# PhpStorm path mappings server configuration name
+##Your PhpStorm path mappings server configuration name
 ENV PHP_IDE_CONFIG "serverName=dev"
+ENV XDEBUG_CONFIG "idekey=PHPSTORM"
 
 EXPOSE 80
 EXPOSE 9000
