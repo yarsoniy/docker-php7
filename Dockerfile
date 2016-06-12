@@ -8,26 +8,15 @@ RUN apt-get -y install \
 	php7.0-mysql \
 	php7.0-mcrypt \
 	php7.0-dev \
+	php-pear \
 	apache2 \
 	libapache2-mod-php7.0 \
-	php-pear
+	vim
 
+#Xdebug
 RUN yes | pecl install xdebug
-
-#Xdebug config for apache
-RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/apache2/php.ini \
-	&& echo "xdebug.remote_enable=on" >> /etc/php/7.0/apache2/php.ini \
-	&& echo "xdebug.remote_connect_back=on" >> /etc/php/7.0/apache2/php.ini
-
-#Xdebug config for php-cli
-RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/cli/php.ini \
-	&& echo "xdebug.remote_enable=on" >> /etc/php/7.0/cli/php.ini \
-	&& echo "xdebug.remote_host=192.168.99.1" >> /etc/php/7.0/cli/php.ini \
-	&& echo "xdebug.remote_log = /var/log/xdebug_remote.log" >> /etc/php/7.0/cli/php.ini
-
-##Your PhpStorm path mappings server configuration name
-ENV PHP_IDE_CONFIG "serverName=dev"
-ENV XDEBUG_CONFIG "idekey=PHPSTORM"
+RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/apache2/php.ini
+RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/cli/php.ini
 
 EXPOSE 80
 ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
