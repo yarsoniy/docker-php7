@@ -12,10 +12,19 @@ RUN apt-get -y install \
 	libapache2-mod-php7.0 \
 	php-pear
 
-RUN yes | pecl install xdebug \
-	&& echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/apache2/php.ini \
+RUN yes | pecl install xdebug
+
+# Xdebug config for apache
+RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/apache2/php.ini \
 	&& echo "xdebug.remote_enable=on" >> /etc/php/7.0/apache2/php.ini \
 	&& echo "xdebug.remote_connect_back=on" >> /etc/php/7.0/apache2/php.ini
+
+# Xdebug config for php-cli
+RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" >> /etc/php/7.0/cli/php.ini \
+	&& echo "xdebug.remote_enable=on" >> /etc/php/7.0/cli/php.ini \
+	&& echo "xdebug.remote_connect_back=on" >> /etc/php/7.0/cli/php.ini
+
+ENV XDEBUG_CONFIG "idekey=PHPSTORM"
 
 EXPOSE 80
 ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
